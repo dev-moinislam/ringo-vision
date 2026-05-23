@@ -1,16 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './CustomCursor.css';
 
 export default function CustomCursor() {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [trail, setTrail] = useState({ x: 0, y: 0 });
+  const dotRef = useRef(null);
+  const haloRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
-  const [cursorColor, setCursorColor] = useState('gold');
+
+  // Mouse coordinate refs
+  const mouseRef = useRef({ x: 0, y: 0 });
+  const trailRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     const handleMouseMove = (e) => {
-      setPosition({ x: e.clientX, y: e.clientY });
+      mouseRef.current = { x: e.clientX, y: e.clientY };
+      
+      // Update sharp core dot directly in DOM for 60fps performance
+      if (dotRef.current) {
+        dotRef.current.style.left = `${e.clientX}px`;
+        dotRef.current.style.top = `${e.clientY}px`;
+      }
     };
 
     const handleMouseDown = () => setIsClicking(true);
@@ -20,32 +29,36 @@ export default function CustomCursor() {
     window.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('mouseup', handleMouseUp);
 
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mousedown', handleMouseDown);
-      window.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, []);
-
-  // Trail effect (lagging halo)
-  useEffect(() => {
+    // One-time requestAnimationFrame loop for smooth trailing
     let animFrameId;
-    
     const updateTrail = () => {
-      setTrail((prev) => {
-        const dx = position.x - prev.x;
-        const dy = position.y - prev.y;
-        return {
-          x: prev.x + dx * 0.15,
-          y: prev.y + dy * 0.15,
-        };
-      });
+      const targetX = mouseRef.current.x;
+      const targetY = mouseRef.current.y;
+      
+      const dx = targetX - trailRef.current.x;
+      const dy = targetY - trailRef.current.y;
+      
+      // Lagging formula
+      trailRef.current.x += dx * 0.15;
+      trailRef.current.y += dy * 0.15;
+
+      if (haloRef.current) {
+        haloRef.current.style.left = `${trailRef.current.x}px`;
+        haloRef.current.style.top = `${trailRef.current.y}px`;
+      }
+
       animFrameId = requestAnimationFrame(updateTrail);
     };
 
     updateTrail();
-    return () => cancelAnimationFrame(animFrameId);
-  }, [position]);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mousedown', handleMouseDown);
+      window.removeEventListener('mouseup', handleMouseUp);
+      cancelAnimationFrame(animFrameId);
+    };
+  }, []);
 
   // Hover detection for interactive items
   useEffect(() => {
@@ -73,13 +86,13 @@ export default function CustomCursor() {
     <>
       {/* Sharp core dot */}
       <div
+        ref={dotRef}
         className={`custom-cursor-dot ${isClicking ? 'clicking' : ''}`}
-        style={{ left: `${position.x}px`, top: `${position.y}px` }}
       />
       {/* Interactive lagging halo */}
       <div
+        ref={haloRef}
         className={`custom-cursor-halo ${isHovered ? 'hovered' : ''} ${isClicking ? 'clicking' : ''}`}
-        style={{ left: `${trail.x}px`, top: `${trail.y}px` }}
       />
     </>
   );

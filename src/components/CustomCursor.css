@@ -1,0 +1,62 @@
+.custom-cursor-dot {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background-color: var(--accent-gold);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 10000;
+  transition: transform 0.1s ease, background-color 0.3s ease;
+  box-shadow: 0 0 10px var(--accent-gold);
+}
+
+.custom-cursor-dot.clicking {
+  transform: translate(-50%, -50%) scale(0.6);
+}
+
+.custom-cursor-halo {
+  position: fixed;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(255, 184, 0, 0.45);
+  background-color: rgba(255, 184, 0, 0.03);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+              height 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+              background-color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+              border-color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 0 15px rgba(255, 184, 0, 0.1);
+}
+
+.custom-cursor-halo.hovered {
+  width: 70px;
+  height: 70px;
+  background-color: rgba(255, 184, 0, 0.1);
+  border-color: var(--accent-gold);
+  box-shadow: var(--glow-gold);
+}
+
+.custom-cursor-halo.clicking {
+  width: 24px;
+  height: 24px;
+  background-color: rgba(255, 184, 0, 0.2);
+  border-color: var(--accent-gold);
+}
+
+/* Hide default cursor on desktop screens */
+@media (min-width: 1024px) {
+  body, a, button, [role="button"], select, input, textarea {
+    cursor: none !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  .custom-cursor-dot,
+  .custom-cursor-halo {
+    display: none !important;
+  }
+}

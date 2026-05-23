@@ -1,0 +1,134 @@
+.cta-section {
+  position: relative;
+  background-color: #030303;
+  z-index: 5;
+  overflow: hidden;
+  height: 80vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8%;
+}
+
+/* Background fire loops */
+.cta-media-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.cta-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.15;
+  filter: grayscale(0.2) contrast(1.1);
+}
+
+.cta-dark-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(3, 3, 3, 0.4) 0%, #030303 80%);
+}
+
+.cta-content-container {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 750px;
+  text-align: center;
+}
+
+/* Card glass */
+.cta-card {
+  padding: 4.5rem 3rem;
+  border-radius: 16px;
+  border-color: rgba(255, 184, 0, 0.15);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 184, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.cta-spark-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cta-spark {
+  width: 20px;
+  height: 2px;
+  border-radius: 1px;
+}
+
+.cta-spark.gold { background-color: var(--accent-gold); }
+.cta-spark.red { background-color: var(--accent-red); }
+
+.cta-heading {
+  margin-bottom: 0;
+}
+
+.cta-subheading {
+  max-width: 580px;
+}
+
+/* Pulse Glowing Join button */
+.cta-btn {
+  padding: 1.25rem 3.5rem;
+  font-size: 1.2rem;
+  background-color: var(--accent-gold);
+  color: #000;
+  border-radius: 4px;
+  font-weight: 700;
+  box-shadow: var(--glow-gold);
+  animation: cta-pulse-glow 2s infinite ease-in-out;
+}
+
+.cta-btn:hover {
+  background-color: #fff;
+  color: #000;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.35);
+}
+
+@keyframes cta-pulse-glow {
+  0% {
+    box-shadow: 0 0 20px rgba(255, 184, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 184, 0, 0.65);
+    transform: scale(1.02);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(255, 184, 0, 0.3);
+  }
+}
+
+/* Responsiveness overrides */
+@media (max-width: 1024px) {
+  .cta-section {
+    height: auto;
+    padding: 6rem 6%;
+  }
+
+  .cta-card {
+    padding: 3rem 2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .cta-btn {
+    width: 100%;
+    padding: 1.1rem;
+    font-size: 1.1rem;
+  }
+}

@@ -1,0 +1,215 @@
+.live-experience-section {
+  position: relative;
+  background-color: #040405;
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+  z-index: 5;
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+/* Rain canvas overlays */
+.rain-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Flashing emergency lights (London night mood) */
+.siren-glow {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  filter: blur(140px);
+  opacity: 0.07;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.red-siren {
+  top: 10%;
+  left: -100px;
+  background-color: var(--accent-red);
+  animation: red-flash 6s infinite ease-in-out alternate;
+}
+
+.blue-siren {
+  bottom: 10%;
+  right: -100px;
+  background-color: #0044ff;
+  animation: blue-flash 6s infinite ease-in-out alternate-reverse;
+}
+
+@keyframes red-flash {
+  0% { transform: scale(0.85); opacity: 0.04; }
+  50% { transform: scale(1.1); opacity: 0.08; }
+  100% { transform: scale(0.9); opacity: 0.03; }
+}
+
+@keyframes blue-flash {
+  0% { transform: scale(1.1); opacity: 0.03; }
+  50% { transform: scale(0.85); opacity: 0.08; }
+  100% { transform: scale(1.05); opacity: 0.04; }
+}
+
+/* Moving London fog */
+.london-fog {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 800 600' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='fog'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.01' numOctaves='3'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 1 0 1 0 0 1 0 0 1 0 1 0 0 0 0.1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23fog)'/%3E%3C/svg%3E");
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 3;
+  animation: fog-drift 60s infinite linear;
+}
+
+@keyframes fog-drift {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Header overlays */
+.live-header {
+  text-align: center;
+  margin-bottom: 5rem;
+  position: relative;
+  z-index: 4;
+}
+
+.live-badge {
+  font-family: var(--font-title);
+  font-size: 0.85rem;
+  letter-spacing: 0.3em;
+  color: var(--accent-red);
+  text-shadow: var(--glow-red);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.live-lead {
+  max-width: 600px;
+  margin: 1.5rem auto 0;
+}
+
+/* Grid post cards */
+.live-feed-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.25rem;
+  position: relative;
+  z-index: 4;
+}
+
+.live-post-card {
+  padding: 2.25rem;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.live-post-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(20, 20, 25, 0.55);
+}
+
+.post-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.post-author {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  color: #fff;
+}
+
+.post-time {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-left: 6px;
+}
+
+.post-pill {
+  font-family: var(--font-title);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  border: 1px solid;
+  border-radius: 4px;
+}
+
+.post-location {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-title);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+}
+
+.location-pin {
+  color: var(--accent-red);
+}
+
+.post-text {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #e0e0e5;
+  flex-grow: 1;
+}
+
+.post-card-actions {
+  display: flex;
+  gap: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 1rem;
+}
+
+.post-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-title);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  transition: color 0.3s ease;
+}
+
+.post-action-btn:hover {
+  color: #fff;
+}
+
+.post-action-btn.hover-red:hover { color: var(--accent-red); }
+.post-action-btn.hover-gold:hover { color: var(--accent-gold); }
+.post-action-btn.hover-green:hover { color: var(--accent-green); }
+
+.action-icon {
+  opacity: 0.8;
+}
+
+/* Responsiveness overrides */
+@media (max-width: 1024px) {
+  .live-feed-grid {
+    grid-template-columns: 1fr;
+    gap: 1.8rem;
+  }
+  
+  .live-post-card {
+    padding: 1.8rem;
+  }
+}
